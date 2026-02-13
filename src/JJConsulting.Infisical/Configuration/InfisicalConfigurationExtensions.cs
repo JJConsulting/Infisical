@@ -6,10 +6,18 @@ using Microsoft.Extensions.Options;
 
 namespace JJConsulting.Infisical.Configuration;
 
+/// <summary>
+/// Extension methods to register Infisical configuration and services.
+/// </summary>
 public static class InfisicalConfigurationExtensions
 {
     extension(IHostBuilder builder)
     {
+        /// <summary>
+        /// Adds Infisical to the host using service-token authentication.
+        /// </summary>
+        /// <param name="config">The Infisical configuration to use.</param>
+        /// <returns>The same host builder for chaining.</returns>
         public IHostBuilder AddInfisical(ServiceTokenInfisicalConfig config)
         {
             builder.ConfigureAppConfiguration(configurationBuilder =>
@@ -22,6 +30,11 @@ public static class InfisicalConfigurationExtensions
             return builder;
         }
 
+        /// <summary>
+        /// Adds Infisical to the host using machine-identity authentication.
+        /// </summary>
+        /// <param name="config">The Infisical configuration to use.</param>
+        /// <returns>The same host builder for chaining.</returns>
         public IHostBuilder AddInfisical(MachineIdentityInfisicalConfig config)
         {
             builder.ConfigureAppConfiguration(configurationBuilder =>
@@ -34,6 +47,14 @@ public static class InfisicalConfigurationExtensions
             return builder;
         }
 
+        /// <summary>
+        /// Adds Infisical to the host using a custom authentication service.
+        /// </summary>
+        /// <typeparam name="TAuthenticationService">
+        /// The authentication service type used to obtain bearer tokens for Infisical API calls.
+        /// </typeparam>
+        /// <param name="config">The Infisical configuration to use.</param>
+        /// <returns>The same host builder for chaining.</returns>
         public IHostBuilder AddInfisical<TAuthenticationService>(InfisicalConfig config)
             where TAuthenticationService : class, IInfisicalAuthenticationService
         {
@@ -50,6 +71,11 @@ public static class InfisicalConfigurationExtensions
 
     extension(IConfigurationBuilder builder)
     {
+        /// <summary>
+        /// Adds the Infisical configuration provider using service-token authentication.
+        /// </summary>
+        /// <param name="config">The Infisical configuration to use.</param>
+        /// <returns>The same configuration builder for chaining.</returns>
         public IConfigurationBuilder AddInfisical(ServiceTokenInfisicalConfig config)
         {
             return builder.Add(new InfisicalConfigurationSource(
@@ -57,6 +83,11 @@ public static class InfisicalConfigurationExtensions
                 () => new ServiceTokenAuthenticationService(config)));
         }
 
+        /// <summary>
+        /// Adds the Infisical configuration provider using machine-identity authentication.
+        /// </summary>
+        /// <param name="config">The Infisical configuration to use.</param>
+        /// <returns>The same configuration builder for chaining.</returns>
         public IConfigurationBuilder AddInfisical(MachineIdentityInfisicalConfig config)
         {
             return builder.Add(new InfisicalConfigurationSource(
@@ -64,6 +95,14 @@ public static class InfisicalConfigurationExtensions
                 () => new MachineIdentityAuthenticationService(config)));
         }
 
+        /// <summary>
+        /// Adds the Infisical configuration provider using a custom authentication service.
+        /// </summary>
+        /// <typeparam name="TAuthenticationService">
+        /// The authentication service type used to obtain bearer tokens for Infisical API calls.
+        /// </typeparam>
+        /// <param name="config">The Infisical configuration to use.</param>
+        /// <returns>The same configuration builder for chaining.</returns>
         public IConfigurationBuilder AddInfisical<TAuthenticationService>(InfisicalConfig config)
             where TAuthenticationService : class, IInfisicalAuthenticationService
         {
@@ -75,6 +114,11 @@ public static class InfisicalConfigurationExtensions
 
     extension(IServiceCollection services)
     {
+        /// <summary>
+        /// Registers Infisical services using service-token authentication.
+        /// </summary>
+        /// <param name="config">The Infisical configuration to use.</param>
+        /// <returns>The same service collection for chaining.</returns>
         public IServiceCollection AddInfisical(ServiceTokenInfisicalConfig config)
         {
             services.AddSingleton<InfisicalConfig>(config);
@@ -86,6 +130,11 @@ public static class InfisicalConfigurationExtensions
             return services;
         }
 
+        /// <summary>
+        /// Registers Infisical services using machine-identity authentication.
+        /// </summary>
+        /// <param name="config">The Infisical configuration to use.</param>
+        /// <returns>The same service collection for chaining.</returns>
         public IServiceCollection AddInfisical(MachineIdentityInfisicalConfig config)
         {
             services.AddSingleton<InfisicalConfig>(config);
@@ -97,6 +146,14 @@ public static class InfisicalConfigurationExtensions
             return services;
         }
 
+        /// <summary>
+        /// Registers Infisical services using a custom authentication service.
+        /// </summary>
+        /// <typeparam name="TAuthenticationService">
+        /// The authentication service type used to obtain bearer tokens for Infisical API calls.
+        /// </typeparam>
+        /// <param name="config">The Infisical configuration to use.</param>
+        /// <returns>The same service collection for chaining.</returns>
         public IServiceCollection AddInfisical<TAuthenticationService>(InfisicalConfig config)
             where TAuthenticationService : class, IInfisicalAuthenticationService
         {

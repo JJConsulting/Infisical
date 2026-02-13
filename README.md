@@ -24,39 +24,43 @@ Or with Package Manager Console:
 Install-Package JJConsulting.Infisical
 ```
 
-## Current Public API
+## Public API At A Glance
 
-Configuration types:
+### Configuration types
 
-- `InfisicalConfig`
-- `MachineIdentityInfisicalConfig`
-- `ServiceTokenInfisicalConfig`
+- `ServiceTokenInfisicalConfig`: use Infisical service token authentication.
+- `MachineIdentityInfisicalConfig`: use machine identity (`ClientId`/`ClientSecret`) authentication.
+- `InfisicalConfig`: base configuration type (inherit it to use with custom authentication services).
 
-Extension methods:
+### Extension methods
 
-- `IHostBuilder.AddInfisical(ServiceTokenInfisicalConfig config)`
-- `IHostBuilder.AddInfisical(MachineIdentityInfisicalConfig config)`
-- `IHostBuilder.AddInfisical<TAuthenticationService>(InfisicalConfig config)`
-- `IConfigurationBuilder.AddInfisical(ServiceTokenInfisicalConfig config)`
-- `IConfigurationBuilder.AddInfisical(MachineIdentityInfisicalConfig config)`
-- `IConfigurationBuilder.AddInfisical<TAuthenticationService>(InfisicalConfig config)`
-- `IServiceCollection.AddInfisical(ServiceTokenInfisicalConfig config)`
-- `IServiceCollection.AddInfisical(MachineIdentityInfisicalConfig config)`
-- `IServiceCollection.AddInfisical<TAuthenticationService>(InfisicalConfig config)`
+Use whichever startup surface your app already uses:
 
-Services:
+`IHostBuilder` - Configures both the Infisical configuration provider and DI services
+
+- `AddInfisical(ServiceTokenInfisicalConfig config)`
+- `AddInfisical(MachineIdentityInfisicalConfig config)`
+- `AddInfisical<TAuthenticationService>(InfisicalConfig config)`
+
+`IConfigurationBuilder` - Registers only the Infisical configuration provider
+
+- `AddInfisical(ServiceTokenInfisicalConfig config)`
+- `AddInfisical(MachineIdentityInfisicalConfig config)`
+- `AddInfisical<TAuthenticationService>(InfisicalConfig config)`
+
+`IServiceCollection` - Registers only the Infisical DI services
+
+- `AddInfisical(ServiceTokenInfisicalConfig config)`
+- `AddInfisical(MachineIdentityInfisicalConfig config)`
+- `AddInfisical<TAuthenticationService>(InfisicalConfig config)`
+
+### Registered services
 
 - `IInfisicalAuthenticationService`
-  - `Task<string> GetBearerTokenAsync()`
+- `GetBearerTokenAsync()`: returns the bearer token used for Infisical API calls.
 - `IInfisicalSecretsService`
-  - `Task<InfisicalSecretsList> GetSecretsAsync()`
-  - `Task<InfisicalSecret> GetSecretAsync(string key)`
-
-Models:
-
-- `InfisicalSecret`
-- `InfisicalSecretsList`
-- `InfisicalSecretListItem`
+- `GetSecretsAsync()`: fetches all secrets for the configured project/path/environment.
+- `GetSecretAsync(string key)`: fetches one secret by key.
 
 ## Configure With Service Token
 

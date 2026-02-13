@@ -6,8 +6,15 @@ using JJConsulting.Infisical.Serialization;
 
 namespace JJConsulting.Infisical.Services;
 
+/// <summary>
+/// Provides authentication tokens used when calling the Infisical API.
+/// </summary>
 public interface IInfisicalAuthenticationService
 {
+    /// <summary>
+    /// Gets a bearer token for Infisical API requests.
+    /// </summary>
+    /// <returns>A bearer token string.</returns>
     Task<string> GetBearerTokenAsync();
 }
 

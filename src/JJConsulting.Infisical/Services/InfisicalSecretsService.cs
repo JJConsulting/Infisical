@@ -7,9 +7,22 @@ using Microsoft.Extensions.Options;
 
 namespace JJConsulting.Infisical.Services;
 
+/// <summary>
+/// Reads secrets from Infisical.
+/// </summary>
 public interface IInfisicalSecretsService
 {
+    /// <summary>
+    /// Gets all secrets available for the configured project, environment, and path.
+    /// </summary>
+    /// <returns>The secret list returned by Infisical.</returns>
     Task<InfisicalSecretsList> GetSecretsAsync();
+
+    /// <summary>
+    /// Gets a single secret by key.
+    /// </summary>
+    /// <param name="key">The secret key to read.</param>
+    /// <returns>The matching secret.</returns>
     Task<InfisicalSecret> GetSecretAsync(string key);
 }
 
