@@ -9,11 +9,11 @@ internal sealed class InfisicalConfigurationProvider : ConfigurationProvider
     private readonly Dictionary<string, string> _secretsCache = new();
     private readonly InfisicalSecretsService _secretsService;
 
-    public InfisicalConfigurationProvider(InfisicalConfig config)
+    public InfisicalConfigurationProvider(
+        InfisicalConfig config,
+        IInfisicalAuthenticationService authenticationService)
     {
         var options = Options.Create(config);
-        var authenticationService = config.CreateAuthenticationService();
-        
         _secretsService = new InfisicalSecretsService(authenticationService, options);
     }
 

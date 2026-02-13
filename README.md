@@ -34,9 +34,15 @@ Configuration types:
 
 Extension methods:
 
-- `IHostBuilder.AddInfisical(InfisicalConfig config)`
-- `IConfigurationBuilder.AddInfisical(InfisicalConfig config)`
-- `IServiceCollection.AddInfisical(InfisicalConfig config)`
+- `IHostBuilder.AddInfisical(ServiceTokenInfisicalConfig config)`
+- `IHostBuilder.AddInfisical(MachineIdentityInfisicalConfig config)`
+- `IHostBuilder.AddInfisical<TAuthenticationService>(InfisicalConfig config)`
+- `IConfigurationBuilder.AddInfisical(ServiceTokenInfisicalConfig config)`
+- `IConfigurationBuilder.AddInfisical(MachineIdentityInfisicalConfig config)`
+- `IConfigurationBuilder.AddInfisical<TAuthenticationService>(InfisicalConfig config)`
+- `IServiceCollection.AddInfisical(ServiceTokenInfisicalConfig config)`
+- `IServiceCollection.AddInfisical(MachineIdentityInfisicalConfig config)`
+- `IServiceCollection.AddInfisical<TAuthenticationService>(InfisicalConfig config)`
 
 Services:
 
@@ -105,6 +111,26 @@ var infisicalConfig = MachineIdentityInfisicalConfig
     .FromConfiguration(builder.Configuration.GetSection("Infisical"));
 
 builder.Host.AddInfisical(infisicalConfig);
+```
+
+## Secret Naming For .NET Configuration
+
+When creating secrets in Infisical for `.NET`, use double underscore (`__`) in the secret key to represent nesting.
+
+Examples of keys in Infisical:
+
+- `MySettings__MyKey`
+- `ConnectionStrings__DefaultConnection`
+- `Logging__LogLevel__Default`
+
+In `.NET`, these are available as standard configuration paths with `:`.
+
+Example with `IConfiguration`:
+
+```csharp
+var value = builder.Configuration["MySettings:MyKey"];
+var defaultConnection = builder.Configuration.GetConnectionString("DefaultConnection");
+var logLevel = builder.Configuration["Logging:LogLevel:Default"];
 ```
 
 ## Direct Secret Access

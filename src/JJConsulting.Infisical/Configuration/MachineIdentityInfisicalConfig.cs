@@ -1,4 +1,3 @@
-using JJConsulting.Infisical.Services;
 using Microsoft.Extensions.Configuration;
 
 namespace JJConsulting.Infisical.Configuration;
@@ -19,10 +18,5 @@ public sealed class MachineIdentityInfisicalConfig : InfisicalConfig
     {
         return !string.IsNullOrWhiteSpace(ClientId) &&
                !string.IsNullOrWhiteSpace(ClientSecret);
-    }
-
-    public override IInfisicalAuthenticationService CreateAuthenticationService()
-    {
-        return new MachineIdentityAuthenticationService(this);
     }
 }

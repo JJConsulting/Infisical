@@ -1,4 +1,3 @@
-using JJConsulting.Infisical.Services;
 using Microsoft.Extensions.Configuration;
 
 namespace JJConsulting.Infisical.Configuration;
@@ -17,10 +16,5 @@ public sealed class ServiceTokenInfisicalConfig : InfisicalConfig
     public override bool IsValid()
     {
         return !string.IsNullOrWhiteSpace(ServiceToken);
-    }
-
-    public override IInfisicalAuthenticationService CreateAuthenticationService()
-    {
-        return new ServiceTokenAuthenticationService(this);
     }
 }

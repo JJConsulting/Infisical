@@ -1,5 +1,3 @@
-using JJConsulting.Infisical.Services;
-
 namespace JJConsulting.Infisical.Configuration;
 
 public abstract class InfisicalConfig
@@ -33,6 +31,4 @@ public abstract class InfisicalConfig
     } = "https://app.infisical.com";
 
     public abstract bool IsValid();
-
-    public abstract IInfisicalAuthenticationService CreateAuthenticationService();
 }

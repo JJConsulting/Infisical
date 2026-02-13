@@ -58,4 +58,37 @@ public class InfisicalConfigurationExtensionsTests
         var source = Assert.Single(builder.Sources);
         Assert.Equal("InfisicalConfigurationSource", source.GetType().Name);
     }
+
+    [Fact]
+    public async Task AddInfisical_GenericOverload_UsesProvidedAuthenticationService()
+    {
+        var config = new ServiceTokenInfisicalConfig
+        {
+            Environment = "custom-env",
+            ProjectId = "project-id",
+            ServiceToken = "ignored-by-custom-auth"
+        };
+
+        var services = new ServiceCollection();
+
+        var returned = services.AddInfisical<CustomAuthenticationService>(config);
+
+        Assert.Same(services, returned);
+
+        using var provider = services.BuildServiceProvider();
+
+        var authenticationService = provider.GetRequiredService<IInfisicalAuthenticationService>();
+        Assert.IsType<CustomAuthenticationService>(authenticationService);
+
+        var token = await authenticationService.GetBearerTokenAsync();
+        Assert.Equal("custom-env-custom-token", token);
+    }
+
+    private sealed class CustomAuthenticationService(InfisicalConfig config) : IInfisicalAuthenticationService
+    {
+        public Task<string> GetBearerTokenAsync()
+        {
+            return Task.FromResult($"{config.Environment}-custom-token");
+        }
+    }
 }
